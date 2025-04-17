@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Soil Health Predictor</title>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #c8e6c9);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background-color: white;
+      padding: 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      max-width: 600px;
+      width: 100%;
+      position: relative;
+    }
+
+    /* 🌿 Large Image Style */
+    .plant-image {
+      width: 250px;
+      height: auto;
+      display: block;
+      margin: 0 auto 25px;
+    }
+
+    /* Optional: Bounce Animation */
+    .bounce {
+      animation: bounce 2s infinite ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    h1 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      color: #4e342e;
+      font-weight: 600;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 15px;
+      margin-top: 5px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 12px;
+      background-color: #388e3c;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 25px;
+      text-align: center;
+      font-size: 20px;
+      color: #1b5e20;
+    }
+
+    @media screen and (max-width: 600px) {
+      .container {
+        padding: 30px 25px;
+      }
+
+      .plant-image {
+        width: 80%;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- 🌱 Enlarged Plant Image with optional animation -->
+    <img src="{{ url_for('static', filename='plant.png') }}" alt="Plant Image" class="plant-image bounce">
+
+    <h1><i class="fas fa-seedling"></i> Soil Health Predictor</h1>
+
+    <form method="POST">
+      {% for feature in features %}
+        <label for="{{ feature }}">
+          <i class="fas fa-leaf"></i> {{ feature.replace('_', ' ').title() }}
+        </label>
+        <input type="number" name="{{ feature }}" step="any" required>
+      {% endfor %}
+      <button type="submit"><i class="fas fa-search"></i> Predict</button>
+    </form>
+
+    {% if prediction %}
+      <div class="result">
+        <p><strong>Prediction:</strong> {{ prediction }}</p>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
